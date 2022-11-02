@@ -8,13 +8,8 @@ const { auth } = require('./middlewares/auth');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-// const { handleCors } = require('./middlewares/cors');
-
 const { PORT = 3000 } = process.env;
 const app = express();
-
-// cors
-// app.use(handleCors);
 
 mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
 
@@ -26,8 +21,6 @@ const {
 } = require('./errors/ObjectNotFound');
 
 app.use(requestLogger);
-
-// app.use(express.static(path.join(__dirname, 'build')));
 
 app.use('/', require('./routes/index'));
 
