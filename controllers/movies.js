@@ -14,7 +14,6 @@ const {
 
 // Возвращает все сохранённые текущим  пользователем фильмы
 const getMovies = (req, res, next) => {
-  console.log('ok')
   Movie.find({})
     .then((movies) => res.send(movies))
     .catch(next);

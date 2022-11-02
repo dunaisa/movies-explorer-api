@@ -6,7 +6,7 @@ const { errors } = require('celebrate');
 
 const { auth } = require('./middlewares/auth');
 
-// const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 // const { handleCors } = require('./middlewares/cors');
 
@@ -25,7 +25,7 @@ const {
   ObjectNotFound,
 } = require('./errors/ObjectNotFound');
 
-// app.use(requestLogger);
+app.use(requestLogger);
 
 // app.use(express.static(path.join(__dirname, 'build')));
 
@@ -40,7 +40,7 @@ app.use('/*', (req, res, next) => {
   next(new ObjectNotFound('Запрашиваемый путь не существует.'));
 });
 
-// app.use(errorLogger);
+app.use(errorLogger);
 
 app.use(errors());
 
