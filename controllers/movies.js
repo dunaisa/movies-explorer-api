@@ -33,7 +33,7 @@ const createMovie = (req, res, next) => {
     trailerLink,
     nameRU,
     nameEN,
-    thumbnail
+    thumbnail,
   } = req.body;
 
   const owner = req.user._id;

@@ -34,6 +34,3 @@ const auth = (req, res, next) => {
 module.exports = {
   auth,
 };
-
-console.log(NODE_ENV);
-console.log(JWT_SECRET);
