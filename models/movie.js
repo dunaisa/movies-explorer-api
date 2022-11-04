@@ -25,32 +25,14 @@ const movieSchema = new mongoose.Schema(
     image: {
       type: String,
       required: true,
-      validate: {
-        validator:
-          function (v) {
-            return /^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/gm.test(v);
-          },
-      },
     },
     trailerLink: {
       type: String,
       required: true,
-      validate: {
-        validator:
-          function (v) {
-            return /^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/gm.test(v);
-          },
-      },
     },
     thumbnail: {
       type: String,
       required: true,
-      validate: {
-        validator:
-          function (v) {
-            return /^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/gm.test(v);
-          },
-      },
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
