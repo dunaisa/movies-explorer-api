@@ -1,6 +1,12 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 
+const { auth } = require('../middlewares/auth');
+
+const {
+  ObjectNotFound,
+} = require('../errors/ObjectNotFound');
+
 const {
   createUser,
   login,
@@ -20,5 +26,14 @@ router.post('/signin', celebrate({
     password: Joi.string().required(),
   }),
 }), login);
+
+router.use(auth);
+
+router.use('/', require('./users'));
+router.use('/', require('./movies'));
+
+router.use('/*', (req, res, next) => {
+  next(new ObjectNotFound('Запрашиваемый путь не существует.'));
+});
 
 module.exports = router;

@@ -3,11 +3,11 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const { errors } = require('celebrate');
 
-const { auth } = require('./middlewares/auth');
-
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { handleCors } = require('./middlewares/cors');
+
+const { handleErrors } = require('./middlewares/centralizedErrors');
 
 const { NODE_ENV, DATA_BASE } = process.env;
 
@@ -20,46 +20,21 @@ app.use(handleCors);
 if (NODE_ENV === 'production') {
   mongoose.connect(DATA_BASE);
 } else {
-  mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+  mongoose.connect('mongodb://localhost:27017/moviesdb');
 }
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const {
-  ObjectNotFound,
-} = require('./errors/ObjectNotFound');
-
 app.use(requestLogger);
 
 app.use('/', require('./routes/index'));
-
-app.use(auth);
-
-app.use('/', require('./routes/users'));
-app.use('/', require('./routes/movies'));
-
-app.use('/*', (req, res, next) => {
-  next(new ObjectNotFound('Запрашиваемый путь не существует.'));
-});
 
 app.use(errorLogger);
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  // если у ошибки нет статуса, выставляем 500
-  const { statusCode = 500, message } = err;
-
-  res.status(statusCode).send({
-    // проверяем статус и выставляем сообщение в зависимости от него
-    message: statusCode === 500
-      ? 'На сервере произошла ошибка'
-      : message,
-  });
-
-  next();
-});
+app.use(handleErrors);
 
 app.listen(PORT, () => {
   // Если всё работает, консоль покажет, какой порт приложение слушает
