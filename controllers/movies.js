@@ -21,8 +21,6 @@ const getMovies = (req, res, next) => {
 
 // Создает фильм
 const createMovie = (req, res, next) => {
-  // const movieId = res.body;
-
   const {
     country,
     director,
@@ -34,6 +32,7 @@ const createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     thumbnail,
+    movieId,
   } = req.body;
 
   const owner = req.user._id;
@@ -49,6 +48,7 @@ const createMovie = (req, res, next) => {
     nameEN,
     thumbnail,
     owner,
+    movieId,
   })
     .then((movie) => res.send(movie))
     .catch((errors) => {

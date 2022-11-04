@@ -7,10 +7,16 @@ const { auth } = require('./middlewares/auth');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
+const { NODE_ENV, DATA_BASE } = process.env;
+
 const { PORT = 3000 } = process.env;
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+if (NODE_ENV === 'production') {
+  mongoose.connect(DATA_BASE);
+} else {
+  mongoose.connect('mongodb://localhost:27017/bitfilmsdb');
+}
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

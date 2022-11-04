@@ -14,8 +14,7 @@
       "jsx": true
     }
   },
-  "plugins": [
-  ],
+  "plugins": [],
   "rules": {
     "no-underscore-dangle": [
       "error",
@@ -24,7 +23,6 @@
           "_id"
         ]
       }
-    ],
-    "object-shorthand": 0
+    ]
   }
 }

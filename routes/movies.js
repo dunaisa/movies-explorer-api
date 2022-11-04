@@ -19,6 +19,7 @@ router.post('/movies', celebrate({
     image: Joi.string().required().regex(/^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/),
     trailerLink: Joi.string().required().regex(/^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/),
     thumbnail: Joi.string().required().regex(/^(https?:\/\/)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]*$/),
+    movieId: Joi.number().integer().min(1).required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

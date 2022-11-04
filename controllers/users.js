@@ -17,8 +17,8 @@ const {
 } = require('../errors/ConflictError');
 
 const {
-  UnauthorizedError,
-} = require('../errors/UnauthorizedError');
+  ForbiddenError,
+} = require('../errors/ForbiddenError');
 
 // Создает пользователя
 const createUser = (req, res, next) => {
@@ -51,6 +51,9 @@ const updateUserInfo = (req, res, next) => {
     .orFail(new ObjectNotFound('Пользователь не найден.'))
     .then((user) => res.send(user))
     .catch((errors) => {
+      if (errors.code === 11000) {
+        return next(new ConflictError('Пользователь с такой почтой уже существует.'));
+      }
       if (errors.name === 'ValidationError') {
         return next(new BadRequest('Переданы некорректные данные.'));
       }
@@ -70,7 +73,7 @@ const login = (req, res, next) => {
       res.send({ token });
     })
     .catch(() => {
-      next(new UnauthorizedError('Необходима авторизация.'));
+      next(new ForbiddenError('Неправильные почта или пароль.'));
     })
     .catch(next);
 };
@@ -79,7 +82,7 @@ const login = (req, res, next) => {
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new ObjectNotFound('Пользователь не найден.'))
-    .then(({ name, email }) => { return res.send({ name, email }) })
+    .then(({ name, email }) => res.send({ name, email }))
     .catch(next);
 };
 
