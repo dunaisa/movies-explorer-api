@@ -11,7 +11,7 @@ const { handleErrors } = require('./middlewares/centralizedErrors');
 
 const { NODE_ENV, DATA_BASE } = process.env;
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3001 } = process.env;
 const app = express();
 
 // cors

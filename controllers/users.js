@@ -32,7 +32,11 @@ const createUser = (req, res, next) => {
     .then((hash) => User.create({
       name, email, password: hash,
     }))
-    .then((data) => res.send(data))
+    .then((data) => {
+      const token = jwt.sign({ _id: data._id }, NODE_ENV === 'production' ? JWT_SECRET : 'super-strong-secret', { expiresIn: '7d' });
+      // вернём токен
+      res.status(200).send({ data, token });
+    })
     .catch((errors) => {
       if (errors.code === 11000) {
         return next(new ConflictError('Пользователь с такой почтой уже существует.'));

@@ -14,7 +14,7 @@ const {
 
 // Возвращает все сохранённые текущим  пользователем фильмы
 const getMovies = (req, res, next) => {
-  Movie.find({})
+  Movie.find({ owner: req.user._id })
     .then((movies) => res.send(movies))
     .catch(next);
 };
@@ -34,7 +34,6 @@ const createMovie = (req, res, next) => {
     thumbnail,
     movieId,
   } = req.body;
-
   const owner = req.user._id;
   Movie.create({
     country,
