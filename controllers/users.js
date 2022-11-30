@@ -86,7 +86,7 @@ const login = (req, res, next) => {
 const getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .orFail(new ObjectNotFound('Пользователь не найден.'))
-    .then(({ name, email }) => res.send({ name, email }))
+    .then((user) => res.send(user))
     .catch(next);
 };
 
